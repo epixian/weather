@@ -15,9 +15,12 @@ class WeatherLocationsApiController extends Controller
      */
     public function index()
     {
-        $locations = WeatherLocation::with(['forecasts' => function ($query) {
-            $query->latest()->limit(1);
-        }])->get();
+        $locations = WeatherLocation::with([
+            'locations', 
+            'forecasts' => function ($query) {
+                $query->latest()->limit(1);
+            }
+        ])->get();
 
         return response($locations->jsonSerialize(), Response::HTTP_OK);
     }
@@ -48,25 +51,14 @@ class WeatherLocationsApiController extends Controller
         if ($location !== null)
             return response(json_encode($location), Response::HTTP_OK);
 
-        // Look up proper lat/lng coordinates
-        $response = \GoogleMaps::load('geocoding')
-            ->setParam(['address' => $request->input('address')])
-            ->get('results.geometry.location');
-
-        $location = $response['results'][0]['geometry']['location'];
-
-        // TODO: error handling
+        // else create a new one
+        $location = WeatherLocation::create(['address' => $request->input('address')]);
         
-        // Create/persist new weather location
-        $location = WeatherLocation::create([
-            'address' => $request->input('address'),
-            'lat' => $location['lat'],
-            'lng' => $location['lng'],
-        ]);
+        // $location->getLatLng();
 
-        // get the current forecast
-        $location->getCurrentForecast();
+        // $location->getCurrentForecast();
 
+        // reload model
         $location = WeatherLocation::with('forecasts')->find($location->id);
 
         return response(json_encode($location), Response::HTTP_CREATED);
@@ -80,7 +72,7 @@ class WeatherLocationsApiController extends Controller
      */
     public function show(WeatherLocation $weatherLocation)
     {
-        //
+        dd($weatherLocation);
     }
 
     /**
