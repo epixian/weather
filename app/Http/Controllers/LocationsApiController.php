@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Location;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class LocationsApiController extends Controller
 {
@@ -14,7 +15,9 @@ class LocationsApiController extends Controller
      */
     public function index()
     {
-        //
+        $locations = Location::with('weatherLocation')->get();
+
+        return response($locations->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**
@@ -35,7 +38,13 @@ class LocationsApiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validate input
+        // create model
+        // assign/create weatherlocation
+        // return model
+        $location = Location::create(['address' => $request->input('address')]);
+        
+        return response(json_encode($location), Response::HTTP_CREATED);
     }
 
     /**
