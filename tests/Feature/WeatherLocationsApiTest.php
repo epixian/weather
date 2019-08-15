@@ -22,7 +22,6 @@ class WeatherLocationsApiTest extends TestCase
     /** @test */
     public function list_stored_weather_locations()
     {
-        $this->withoutExceptionHandling();
         $locations = factory('App\WeatherLocation', 5)->create();
 
         // $this->json('GET', '/api/weatherlocations?api_token=' . $this->user->api_token)
@@ -35,7 +34,6 @@ class WeatherLocationsApiTest extends TestCase
     /** @test */
     public function create_a_weather_location()
     {
-        $this->withoutExceptionHandling();
         $this->json('POST', '/api/weatherlocations', [
                 // 'api_token' => $this->user->api_token, 
                 'address' => '19038'
@@ -49,7 +47,6 @@ class WeatherLocationsApiTest extends TestCase
     /** @test */
     public function use_cached_weather_locations()
     {
-        $this->withoutExceptionHandling();
         $location = factory('App\WeatherLocation')->create();
 
         $this->json('POST', '/api/weatherlocations', [
