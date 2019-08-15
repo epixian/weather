@@ -24,7 +24,7 @@ class Forecast extends Model
     ];
 
     /**
-     * Get the location(s) this forecast applies to
+     * Get the weather location this forecast applies to
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function weatherLocation()
