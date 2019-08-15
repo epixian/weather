@@ -16,8 +16,8 @@ class CreateWeatherLocationsTable extends Migration
         Schema::create('weather_locations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('address');
-            $table->decimal('lat', 9, 7);
-            $table->decimal('lng', 10, 7);
+            $table->decimal('lat', 9, 7)->nullable();
+            $table->decimal('lng', 10, 7)->nullable();
             $table->timestamps();
         });
     }
