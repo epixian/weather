@@ -16,7 +16,7 @@ class WeatherLocation extends Model
      * @var array
      */
     protected $guarded = [];
-
+    
     /**
      * Get the forecasts associated with the weather location
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -61,5 +61,28 @@ class WeatherLocation extends Model
                     'data' => DarkSky::location($this->lat, $this->lng)->excludes(['minutely'])->get()
                 ])
             );
+    }
+
+    /**
+     * Geocode the location using Google Maps API
+     * @return WeatherLocation
+     */
+    public function getLatLng()
+    {
+        $response = \GoogleMaps::load('geocoding')
+            ->setParam(['address' => $this->address])
+            ->get('results.geometry.location');
+
+        if (isset($response['status']))
+            throw new Exception('Invalid ZIP code.');
+
+        $location = $response['results'][0]['geometry']['location'];
+        
+        $this->lat = $location['lat'];
+        $this->lng = $location['lng'];
+
+        $this->save();
+        
+        return $this;
     }
 }
