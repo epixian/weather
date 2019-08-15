@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use App\Location;
+use App\WeatherLocation;
 use Illuminate\Support\Facades\DB;
+use App\Observers\LocationObserver;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
+use App\Observers\WeatherLocationObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,5 +36,9 @@ class AppServiceProvider extends ServiceProvider
                 $query->time
             );
         });
+
+        // register observers
+        Location::observe(LocationObserver::class);
+        WeatherLocation::observe(WeatherLocationObserver::class);
     }
 }
