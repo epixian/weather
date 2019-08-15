@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model
 {
     /**
+     * The attributes that are not mass-fillable
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * Get the customer associated with the location
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -41,9 +47,12 @@ class Location extends Model
     /**
      * Set the weather location this location belongs to
      * @param WeatherLocation $weatherLocation
+     * @return WeatherLocation
      */
-    public function setWeatherLocation(WeatherLocation $weatherLocation)
+    public function setWeatherLocation(WeatherLocation $weatherLocation = null)
     {
-        $this->weatherLocation()->associate($weatherLocation)->save();
+        return $this->weatherLocation()->associate(
+            $weatherLocation ?: WeatherLocation::firstOrCreate(['address' => $this->postal_code])
+        )->save();
     }
 }
