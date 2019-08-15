@@ -19,3 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/weatherlocations', 'WeatherLocationsApiController@index');
 Route::post('/weatherlocations', 'WeatherLocationsApiController@store');
+
+Route::get('/locations', 'LocationsApiController@index');
+Route::post('/locations', 'LocationsApiController@store');
