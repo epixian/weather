@@ -12,6 +12,15 @@ class WeatherLocation extends Model
     use HasEagerLimit;
 
     /**
+     * The relationships that should be eager-loaded
+     * @var array
+     */
+    protected $with = [ 
+        'locations',
+        'forecasts'
+    ];
+
+    /**
      * The attributes that are not mass-fillable
      * @var array
      */
@@ -23,7 +32,7 @@ class WeatherLocation extends Model
      */
     public function forecasts()
     {
-        return $this->hasMany('App\Forecast');
+        return $this->hasMany('App\Forecast')->latest();
     }
 
     public function locations()
@@ -74,7 +83,7 @@ class WeatherLocation extends Model
             ->get('results.geometry.location');
 
         if (isset($response['status']))
-            throw new Exception('Invalid ZIP code.');
+            return null;
 
         $location = $response['results'][0]['geometry']['location'];
         
