@@ -1,7 +1,7 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="https://bulma.io">
-      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+      <img src="{{ asset('images/logo.png') }}" width="82" height="28">
     </a>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -15,11 +15,11 @@
     <div class="navbar-start">
       {{-- @auth --}}
         <router-link to="/" class="navbar-item">
-          Locations
+          Customers
         </router-link>
 
-        <router-link to="/weatherlocations" class="navbar-item">
-          Weather Locations
+        <router-link to="/locations" class="navbar-item">
+          Locations
         </router-link>
 
         <div class="navbar-item has-dropdown is-hoverable">
@@ -28,9 +28,10 @@
           </a>
 
           <div class="navbar-dropdown">
-            <a class="navbar-item">
-              About
-            </a>
+            <router-link to="/weatherlocations" class="navbar-item">
+              Weather Locations
+            </router-link>
+
             <a class="navbar-item">
               Jobs
             </a>
