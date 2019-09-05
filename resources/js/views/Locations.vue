@@ -1,17 +1,8 @@
 <template>
     <div id="view-locations">
-        <div class="hero is-info is-bold">
-            <div class="hero-body">
-                <div class="container">
-                    <h1 class="title">
-                        Locations
-                    </h1>
-                    <h2 class="subtitle">
-                        Your customers' jobsites:
-                    </h2>
-                </div>
-            </div>
-        </div>
+        <view-header 
+            :title="title"
+            :subtitle="subtitle"></view-header>
 
         <div class="container section">
             <location
@@ -24,14 +15,17 @@
 
 <script>
     import Location from '../components/Location.vue';
+    import ViewHeader from '../components/ViewHeader.vue';
 
     export default {
-        components: { Location },
+        components: { Location, ViewHeader },
 
         data() {
             return {
                 locations: [],
-                message: ''
+                message: '',
+                title: 'Locations',
+                subtitle: 'Your customers\' jobsites'
             }
         },
 
