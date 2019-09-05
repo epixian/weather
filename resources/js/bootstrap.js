@@ -2,10 +2,12 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import Form from './core/Form';
+import VS2 from 'vue-script2';
 
 // set up vue
 window.Vue = Vue;
 Vue.use(VueRouter);
+Vue.use(VS2);
 
 // set up axios
 window.axios = axios;
