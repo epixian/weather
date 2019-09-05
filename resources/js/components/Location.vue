@@ -1,7 +1,7 @@
 <template>
-    <div :id="'location-' + id" class="message">
+    <div :id="'location-' + data.id" class="message">
         <div class="message-header">
-            <p>Location {{ id }}</p>
+            <p><router-link :to="href">Location {{ data.id }}</router-link></p>
         </div>
         <div class="message-body columns">
             <div class="column">
@@ -24,21 +24,24 @@
 
         props: [ 'data' ],
 
-        data() {
-            return {
-                id: this.data.id,
-                address_1: this.data.address_1,
-                address_2: this.data.address_2,
-                city: this.data.city,
-                state: this.data.state,
-                postal_code: this.data.postal_code,
-            }
-        },
+        // data() {
+        //     return {
+        //         id: this.data.id,
+        //         address_1: this.data.address_1,
+        //         address_2: this.data.address_2,
+        //         city: this.data.city,
+        //         state: this.data.state,
+        //         postal_code: this.data.postal_code,
+        //     }
+        // },
 
         computed: {
             fullAddress: function () {
-                return this.address_1 + (this.address_2 ? ' ' + this.address_2 : '') + ', ' +
-                    this.city + ', ' + this.state + ' ' + this.postal_code;
+                return this.data.address_1 + (this.data.address_2 ? ' ' + this.data.address_2 : '') + ', ' +
+                    this.data.city + ', ' + this.data.state + ' ' + this.data.postal_code;
+            },
+            href: function () {
+                return '/locations/' + this.data.id;
             }
         }
     }
