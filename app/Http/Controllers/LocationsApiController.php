@@ -38,13 +38,25 @@ class LocationsApiController extends Controller
      */
     public function store(Request $request)
     {
-        // validate input
-        // create model
-        // assign/create weatherlocation
-        // return model
-        $location = Location::create(['address' => $request->input('address')]);
+        $attributes = $request->validate([
+            'name' => 'required',
+            'address_1' => 'required',
+            'address_2' => 'nullable',
+            'city' => 'required',
+            'state' => 'required|size:2',
+            'postal_code' => 'required|regex:^\d{5}(?:[-]\d{4})?$'
+        ]);
+
+        $location = Location::firstOrCreate([
+            'name' => $attributes->name,
+            'address_1' => $attributes->address_1,
+            'address_2' => $attributes->address_2,
+            'city' => $attributes->city,
+            'state' => $attributes->state,
+            'postal_code' => $attributes->postal_code
+        ]);
         
-        return response(json_encode($location), Response::HTTP_CREATED);
+        return Location::with('weatherLocation')->find($location->id);
     }
 
     /**
@@ -55,7 +67,7 @@ class LocationsApiController extends Controller
      */
     public function show(Location $location)
     {
-        //
+        return $location;
     }
 
     /**
