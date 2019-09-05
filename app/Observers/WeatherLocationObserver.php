@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\WeatherLocation;
+use Illuminate\Support\Facades\Log;
 
 class WeatherLocationObserver
 {
@@ -14,14 +15,12 @@ class WeatherLocationObserver
      */
     public function created(WeatherLocation $weatherLocation)
     {
-        try {
-            $weatherLocation->getLatLng();
-            $weatherLocation->getCurrentForecast();
-        } 
-        catch (Exception $e) {
-            Log::error('Error: ' . $e);
+        if($weatherLocation->getLatLng() === null) {
+            Log::error('Error: invalid ZIP code.');
+            return;
         }
-
+        
+        $weatherLocation->getCurrentForecast();
     }
 
     /**
