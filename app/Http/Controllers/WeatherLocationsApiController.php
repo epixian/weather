@@ -22,7 +22,8 @@ class WeatherLocationsApiController extends Controller
             }
         ])->get();
 
-        return response($locations->jsonSerialize(), Response::HTTP_OK);
+        return $locations;
+        // return response($locations->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**
@@ -44,24 +45,20 @@ class WeatherLocationsApiController extends Controller
     public function store(Request $request)
     {
         // return existing address if exists
-        $location = WeatherLocation::where(
+        $weatherLocation = WeatherLocation::where(
             ['address' => $request->input('address')]
         )->first();
 
-        if ($location !== null)
-            return response(json_encode($location), Response::HTTP_OK);
+        if ($weatherLocation !== null)
+            return response(json_encode($weatherLocation), Response::HTTP_OK);
 
         // else create a new one
-        $location = WeatherLocation::create(['address' => $request->input('address')]);
-        
-        // $location->getLatLng();
-
-        // $location->getCurrentForecast();
+        $weatherLocation = WeatherLocation::create(['address' => $request->input('address')]);
 
         // reload model
-        $location = WeatherLocation::with('forecasts')->find($location->id);
+        $weatherLocation = WeatherLocation::find($weatherLocation->id);
 
-        return response(json_encode($location), Response::HTTP_CREATED);
+        return response(json_encode($weatherLocation), Response::HTTP_CREATED);
     }
 
     /**
@@ -72,7 +69,7 @@ class WeatherLocationsApiController extends Controller
      */
     public function show(WeatherLocation $weatherLocation)
     {
-        dd($weatherLocation);
+        return $weatherLocation;
     }
 
     /**
