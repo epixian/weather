@@ -17,6 +17,7 @@ class CreateLocationsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('customer_id')->unsigned()->index()->nullable();
             $table->bigInteger('weather_location_id')->unsigned()->index()->nullable();
+            $table->string('name')->nullable();
             $table->string('address_1')->nullable();
             $table->string('address_2')->nullable();
             $table->string('city')->nullable();
