@@ -45,7 +45,7 @@ class WeatherLocationsApiTest extends TestCase
     }
 
     /** @test */
-    public function use_cached_weather_locations()
+    public function do_not_create_new_weather_location_if_already_exists()
     {
         $location = factory('App\WeatherLocation')->create();
 
@@ -57,5 +57,18 @@ class WeatherLocationsApiTest extends TestCase
             ->assertJson([
                 'address' => $location->address
             ]);
+    }
+
+    /** @test */
+    public function show_a_single_weather_location()
+    {
+        $this->withoutExceptionHandling();
+        factory('App\Location')->create();
+
+        $location = Location::with('weatherLocation')->first();
+
+        $this->json('GET', '/api/weatherlocations/' . $location->weatherLocation->id)
+            ->assertStatus(Response::HTTP_OK)
+            ->assertJson(['address' => $location->weatherLocation->address]);
     }
 }
