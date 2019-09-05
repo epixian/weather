@@ -24,6 +24,14 @@ class Forecast extends Model
     ];
 
     /**
+     * The relationships to be touched when this model is updated.
+     * @var array
+     */
+    protected $touches = [
+        'weatherLocation',
+    ];
+
+    /**
      * Get the weather location this forecast applies to
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
